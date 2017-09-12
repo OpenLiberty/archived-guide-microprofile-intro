@@ -1,0 +1,15 @@
+<server description="Sample Liberty server">
+
+  <featureManager>
+      <feature>jaxrs-2.0</feature>
+      <feature>jsonp-1.0</feature>
+      <feature>localConnector-1.0</feature>
+        <feature>cdi-1.2</feature>
+    </featureManager>
+
+  <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <webApplication location="microprofile.war" contextRoot="${app.context.root}"/>
+</server>
