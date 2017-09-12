@@ -88,7 +88,7 @@ git clone https://github.com/openliberty/guide-{projectid}.git
 cd guide-{projectid}/start
 ----
 
-=== Optional: Importing into an IDE
+=== Optional: importing into an IDE
 
 If you use an integrated development environment (IDE), you can import the Maven project by
 pointing to the directory, `guide-microprofile/start`.
@@ -98,7 +98,7 @@ pointing to the directory, `guide-microprofile/start`.
 // Creating the Inventory Service with JAX-RS
 // =================================================================================================
 
-== Creating the Inventory Service with JAX-RS
+== Creating the inventory service with JAX-RS
 
 First, create the JAX-RS service that serves as the `systems` endpoint:
 
@@ -135,7 +135,7 @@ include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/In
 // Creating the Inventory Manager
 // =================================================================================================
 
-== Creating the Inventory Manager
+== Creating the inventory manager
 
 The Inventory Manager is responsible for storing the data about the systems in the inventory and
 managing them.
@@ -242,7 +242,7 @@ you do not need one here. Annotated beans are automatically discovered by defaul
 // Accessing the System RESTful web service
 // =================================================================================================
 
-== Accessing the System RESTful web service
+== Accessing the system RESTful web service
 
 Recall the `InventoryUtil.getProperties(hostname)` call from <<Creating the Inventory Manager>>.
 To retrieve information about a system, create a utility class to access the `System` service from
