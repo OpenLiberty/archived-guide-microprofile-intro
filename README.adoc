@@ -5,7 +5,6 @@
 //
 // Contributors:
 //   IBM Corporation
-
 :projectid: microprofile-intro
 :page-layout: guide
 :page-duration: 25 minutes
@@ -13,7 +12,6 @@
 :page-tags: ['REST', 'MicroProfile', 'Getting Started']
 :page-permalink: /guides/{projectid}
 :source-highlighter: prettify
-
 = Creating a MicroProfile application
 
 MicroProfile is an initiative to optimize Enterprise Java for microservices architecture. It began
