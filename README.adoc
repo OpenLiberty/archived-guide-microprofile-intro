@@ -242,7 +242,7 @@ you do not need one here. Annotated beans are automatically discovered by defaul
 // Accessing the System RESTful web service
 // =================================================================================================
 
-== Accessing the `System` RESTful web service
+== Accessing the System RESTful web service
 
 Recall the `InventoryUtil.getProperties(hostname)` call from <<Creating the Inventory Manager>>.
 To retrieve information about a system, create a utility class to access the `System` service from
