@@ -242,7 +242,7 @@ you do not need one here. Annotated beans are automatically discovered by defaul
 // Accessing the System RESTful web service
 // =================================================================================================
 
-== Accessing the system RESTful web service
+== Accessing the System RESTful web service
 
 Recall the `InventoryUtil.getProperties(hostname)` call from <<Creating the Inventory Manager>>.
 To retrieve information about a system, create a utility class to access the `System` service from
@@ -357,7 +357,7 @@ to test the application.
 
 === Setting up the tests
 
-Create a test class `src/test/java/io/openliberty/guides/microprofile/EndpointTest.java`
+Create a test class `src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java`
 
 [source, java]
 ----
@@ -378,15 +378,19 @@ The test code needs to know some information about the application in order to m
 port, and the application context root are key. These are dictated by the server configuration. While
 this information can be hardcoded, it is better to have it specified in a single place like the
 Maven pom.xml:
-```
+
+[source, xml]
+----
 <testServerHttpPort>9081</testServerHttpPort>
 <testServerHttpsPort>9443</testServerHttpsPort>
 <system.service.port>9080</system.service.port>
 <warContext>${app.name}</warContext>
-```
+----
 
 These Maven properties can then be passed to the Java test program as a series of system properties:
-```
+
+[source, xml]
+----
 <systemPropertyVariables>
   <inv.test.port>${testServerHttpPort}</inv.test.port>
   <war.name>${warContext}</war.name>
@@ -394,7 +398,7 @@ These Maven properties can then be passed to the Java test program as a series o
   <running.bluemix>${running.bluemix}</running.bluemix>
   <cf.context.root>${cf.context.root}</cf.context.root>
 </systemPropertyVariables>
-```
+----
 
 Which can then be accessed via the `System.getProperties` method. Use them to create representations
 of the URL associated with each running service:
