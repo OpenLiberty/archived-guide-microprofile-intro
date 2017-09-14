@@ -7,7 +7,7 @@
 //   IBM Corporation
 :projectid: microprofile-intro
 :page-layout: guide
-:page-duration: 25 minutes
+:page-duration: 30 minutes
 :page-description: Learn how to build a MicroProfile application
 :page-tags: ['REST', 'MicroProfile', 'Getting Started']
 :page-permalink: /guides/{projectid}
@@ -70,7 +70,7 @@ is provided to you.
 
 
 // =================================================================================================
-// Getting started
+// Getting Started
 // =================================================================================================
 
 include::{common-includes}/gitclone.adoc[]
