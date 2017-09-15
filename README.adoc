@@ -132,7 +132,14 @@ include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/In
 For simplicity, use a `ConcurrentMap` to store the data. Alternatively, you can use
 a database or another service to do so.
 
-This class contains three simple methods: `get`, `add`, and `list`.
+This class will contain three simple methods: `add`, `get`, and `list`.
+
+The `add` method adds the JSON object that contains the system properties to the inventory.
+
+[source, java, indent=0]
+----
+include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=add]
+----
 
 The `get` method returns a JSON object that contains the system properties for the specified hostname.
 Notice the calls to `InventoryUtil`. This class contains utility methods that test connections
@@ -141,13 +148,6 @@ and access the `System` service. `InventoryUtil` is covered in more detail in a 
 [source, java, indent=0]
 ----
 include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=get]
-----
-
-The `add` method adds the JSON object that contains the system properties to the inventory.
-
-[source, java, indent=0]
-----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=add]
 ----
 
 The `list` method returns a JSON representation of the current contents of the inventory.
