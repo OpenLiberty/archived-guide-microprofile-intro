@@ -164,8 +164,9 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 
 == Using CDI
 
-Context and Dependency Injection (CDI) is a Java EE feature that makes it simple for developers to
-use enterprise beans in web applications.
+CDI is a Java EE specification that makes it simple for developers to use enterprise beans in web
+applications. It simplifies dependency and lifecycle management and enable developers to focus on
+their code.
 
 === Injection
 
@@ -200,7 +201,7 @@ that you need for your objects:
 * The `@ApplicationScoped` annotation indicates that only one instance is created for each application.
 
 Annotate `InventoryResource` with `@ApplicationScoped` because it does not depend on any request-specific state.
-In general, all resourced should be annotated with `@ApplicationScoped` unless they should be created once
+In general, all resources should be annotated with `@ApplicationScoped` unless they should be created once
 per every request.
 
 [source, java]
@@ -285,8 +286,8 @@ mvn liberty:start-server
 
 Once the server is running, you can find both services at:
 
-* `http://localhost:9080/system/properties`
 * `http://localhost:9080/inventory/hosts`
+* `http://localhost:9080/system/properties`
 
 
 // =================================================================================================
@@ -469,7 +470,7 @@ To rebuild and run the tests, navigate to the `start` directory and run the `mvn
 from the command line.
 
 ```
-# If servers are still running from previous steps, stop them first
+# If the server is still running from previous steps, stop it first
 mvn liberty:stop-server
 
 # Then execute
