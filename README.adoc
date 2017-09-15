@@ -63,10 +63,10 @@ http://localhost:9081/LibertyProject/Inventory/systems/<hostname>
 ```
 
 The service responds with a JSON representation of the system properties that are retrieved
-from the `System` service of the specified system.
+from the `System` service of the specified system. The `System` service is a simple REST service
+that returns the properties of a system and is provided to you.
 
-The `System` service is a simple REST service that returns the properties of a system and
-is provided to you.
+You will implement the above in the local case that is with everything deployed on one system.
 
 
 // =================================================================================================
@@ -200,13 +200,17 @@ that you need for your objects:
 * The `@RequestScoped` annotation indicates that a new instance is created for each request.
 * The `@ApplicationScoped` annotation indicates that only one instance is created for each application.
 
-To create your inventory service and manager once and have them be available during
-your application, label them both with the `@ApplicationScoped` annotation.
+Annotate `InventoryResource` with `@ApplicationScoped` because it does not depend on any request-specific state.
+In general, you want to make resources as `@ApplicationScoped` unless they depend on request-specific state.
 
 [source, java]
 ----
 include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=header]
 ----
+
+Annotate `InventoryManager` with `@ApplicationScoped` too because it does not depend on any request-specifc state either.
+If a real database resource is used instead of a `Map`, it improves performance as database resources
+are not re-initialized on each request.
 
 [source, java]
 ----
@@ -266,30 +270,7 @@ You now have your `Inventory` service, and your application has a starting point
 // Building the application
 // =================================================================================================
 
-== Building the application
-
-To build the application, run the following command from the `start` directory:
-```
-mvn install
-```
-
-This command builds the application and creates a .war file in the `target` directory under both the `rest/` and
-`microprofile/` directories. The command also configures and installs Liberty into the
-`target/liberty/wlp` directory.
-
-Once the Maven build is finished, you can use the `server` script under the `wlp/bin` directory to
-start each server individually. Alternatively, you can start or stop the server with the `liberty:start-server`
-and `liberty:stop-server` Maven goals.
-
-If the server is running, running the installation can cause issues because it attempts to start a
-server. Instead, you can run the following command:
-```
-mvn package
-```
-
-This command rebuilds the application, and the Liberty server that is running automatically picks up the changes.
-
-If you use an IDE that performs incremental updates, you can bypass the application build.
+include::{common-includes}/mvnbuild.adoc[]
 
 
 // =================================================================================================
@@ -311,8 +292,8 @@ mvn liberty:start-server -DserverName=microServer
 
 Once both servers are running, you can find the services at the following URLs:
 
-* `http://localhost:9080/LibertyProject/System`
-* `http://localhost:9081/LibertyProject/Inventory`
+* `http://localhost:9080/LibertyProject/System/properties`
+* `http://localhost:9081/LibertyProject/Inventory/systems`
 
 
 // =================================================================================================
@@ -323,8 +304,13 @@ Once both servers are running, you can find the services at the following URLs:
 
 The application provides a simple inventory management REST service that you can access at the following URLs:
 
-* `http://localhost:9081/LibertyProject/Inventory/systems`
-* `http://localhost:9081/LibertyProject/Inventory/systems/{hostname}`
+```
+http://localhost:9081/LibertyProject/Inventory/systems
+http://localhost:9081/LibertyProject/Inventory/systems/{hostname}
+
+# Example URL to retrieve or register a system
+http://localhost:9081/LibertyProject/Inventory/systems/localhost
+```
 
 The first URL returns the current contents of the inventory. The second URL returns the system
 properties for the particular hostname. The service retrieves the properties from the inventory.
@@ -490,9 +476,21 @@ include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile
 
 === Running the tests
 
-To rebuild and run the tests, navigate to the `guide-``{projectid}``/start` directory and
-run the `mvn clean install` command from the command line. It might take some time before
-the tests are executed. You see a similar output if the tests passed successfully:
+To rebuild and run the tests, navigate to the `guide-{projectid}/start` directory and
+run the `mvn clean install` command from the command line.
+
+```
+# If servers are still running from previous steps, stop them first
+cd microprofile/
+mvn liberty:stop-server -DserverName=microServer
+cd ../rest/
+mvn liberty:stop-server
+
+mvn clean install
+```
+
+It might take some time before the tests are executed.
+You see a similar output if the tests passed successfully:
 
 ```
 -------------------------------------------------------
