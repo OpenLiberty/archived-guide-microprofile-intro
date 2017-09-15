@@ -29,21 +29,20 @@ You will learn how to use JAX-RS, CDI, and JSON-P to build a MicroProfile applic
 performs simple inventory management. You will write REST web services with JAX-RS and JSON-P
 and also use CDI to inject dependencies and help manage the lifecycle of your application.
 
-The application provides an `Inventory` service that allows you to work with `systems` to retrieve
-a list of all systems in the inventory or retrieve information about a particular system.
-If a system is not in the inventory, the `Inventory` service attempts to retrieve information by
-calling a `System` service of the specified system.
+This application provides an `inventory` service that allows you to retrieve the information for a particular
+host or a list of all previously registered hosts. If the requested host is not in the inventory, the `inventory`
+service attempts to retrieve that host's information by calling its `system` service.
 
-For example, to retrieve a list of all systems in the inventory, enter the following URL:
+For example, to retrieve a list of all hosts in the inventory, enter the following URL:
 ```
-http://localhost:9081/LibertyProject/Inventory/systems
+http://localhost:9080/inventory/hosts
 ```
 
-The service responds with a JSON message that contains system information for all previously
+The service responds with a JSON message that contains host information for all previously
 registered hosts, such as in the following example:
 ```
 {
-  "systems": {
+  "hosts": {
     "localhost": {
       "os.name": "Mac OS X",
       "user.name": "foo"
@@ -57,16 +56,16 @@ registered hosts, such as in the following example:
 }
 ```
 
-To retrieve information about a specific system, call this address:
+To retrieve information about a specific host, call this address:
 ```
-http://localhost:9081/LibertyProject/Inventory/systems/<hostname>
+http://localhost:9080/inventory/hosts/<hostname>
 ```
 
 The service responds with a JSON representation of the system properties that are retrieved
-from the `System` service of the specified system. The `System` service is a simple REST service
-that returns the properties of a system and is provided to you.
+from the `system` service of the specified host. The `system` service is a simple REST service
+that returns the system properties of a host. This service is implemented for you.
 
-You will implement the above in the local case that is with everything deployed on one system.
+You will be running both `system` and the `inventory` services locally, on a single server.
 
 
 // =================================================================================================
@@ -88,7 +87,7 @@ First, create the JAX-RS service that serves as the `systems` endpoint:
 
 [source, java]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=**;!cdi-scope;!injection;!method-contents;!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=**;!cdi-scope;!injection;!method-contents;!comment]
 ----
 
 The `@Path` annotation identifies the URI path template that the resource responds to.
@@ -101,15 +100,15 @@ signature to retrieve the hostname as an argument.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost;!method-contents]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost;!method-contents]
 ----
 
 The `listContents` method also responds to a `GET` request and returns the currently stored
-system properties, the contents of the inventory.
+system properties (the contents of the inventory).
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=listContents;!method-contents]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=listContents;!method-contents]
 ----
 
 
@@ -126,7 +125,7 @@ managing them.
 
 [source, java]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=**;!cdi-scope;!get;!add;!list;!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=**;!cdi-scope;!get;!add;!list;!comment]
 ----
 
 For simplicity, use a `ConcurrentMap` to store the data. Alternatively, you can use
@@ -138,16 +137,16 @@ The `add` method adds the JSON object that contains the system properties to the
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=add]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=add]
 ----
 
 The `get` method returns a JSON object that contains the system properties for the specified hostname.
-Notice the calls to `InventoryUtil`. This class contains utility methods that test connections
-and access the `System` service. `InventoryUtil` is covered in more detail in a later section.
+Notice the call to `InventoryUtil`. This class contains utility methods that test connections
+and access the `system` service. `InventoryUtil` is covered in more detail in a later section.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=get]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=get]
 ----
 
 The `list` method returns a JSON representation of the current contents of the inventory.
@@ -155,7 +154,7 @@ For simplicity, `list` returns only the OS name and username of each registered 
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=list]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=list]
 ----
 
 
@@ -165,31 +164,31 @@ include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/In
 
 == Using CDI
 
-CDI simplifies the management of dependencies and lifecycle and
-enables Java EE developers to focus on their code.
+Context and Dependency Injection (CDI) is a Java EE feature that makes it simple for developers to
+use enterprise beans in web applications.
 
 === Injection
 
-To use the dependencies that you need with CDI, use the `@Inject` annotation to easily inject them into your code.
+To perform a dependency injection, use the `@Inject` annotation .
 
 In the previous section, you created an `InventoryManager` bean. Inject that bean into
-the `InventoryResource` dependency to use what the bean provides without cumbersome instantiation.
+the `InventoryResource` class to use what the bean provides without the need for its instantiation.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=header;injection;!cdi-scope]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=header;injection;!cdi-scope]
 ----
 
 With the injection in place, implement the `@GET` annotated methods:
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost]
 ----
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=listContents]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=listContents]
 ----
 
 === Scope
@@ -201,20 +200,21 @@ that you need for your objects:
 * The `@ApplicationScoped` annotation indicates that only one instance is created for each application.
 
 Annotate `InventoryResource` with `@ApplicationScoped` because it does not depend on any request-specific state.
-In general, you want to make resources as `@ApplicationScoped` unless they depend on request-specific state.
+In general, all resourced should be annotated with `@ApplicationScoped` unless they should be created once
+per every request.
 
 [source, java]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=header]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=header]
 ----
 
-Annotate `InventoryManager` with `@ApplicationScoped` too because it does not depend on any request-specifc state either.
+Annotate `InventoryManager` with `@ApplicationScoped` because it, too, does not depend on any request-specifc state.
 If a real database resource is used instead of a `Map`, it improves performance as database resources
 are not re-initialized on each request.
 
 [source, java]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=header]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=header]
 ----
 
 === Enabling CDI
@@ -231,20 +231,17 @@ you do not need a `beans.xml` file here. Annotated beans are automatically disco
 == Accessing the System RESTful web service
 
 Recall the `InventoryUtil.getProperties(hostname)` call from <<Creating the Inventory Manager>>.
-To retrieve information about a system, create a utility class to access the `System` service from
-the `Inventory` service as a JAX-RS client.
-
-`src/main/java/io/openliberty/guides/util/InventoryUtil.java`
+This class is used to access the `system` service from the `inventory` service as a JAX-RS client.
 
 [source, java]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/util/InventoryUtil.java[tags=**;!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=**;!comment]
 ----
 
 The `InventoryUtil` class contains a `getProperties` method that makes an HTTP `GET` request to
-the `System` service and returns the retrieved JSON object. The `responseOk` method tests for a valid
-connection to the `System` service at the specified host. These methods enable interaction with
-the `System` service.
+the `system` service and returns the retrieved JSON object. The `responseOk` method tests for a valid
+connection to the `system` service at the specified host. Together, these methods enable interaction with
+the `system` service.
 
 
 // =================================================================================================
@@ -259,11 +256,11 @@ Create the following JAX-RS application class: `src/main/java/io/openliberty/gui
 
 [source, java, indent = 0]
 ----
-include::finish/microprofile/src/main/java/io/openliberty/guides/microprofile/InventoryApplication.java[tags=**;!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryApplication.java[tags=**;!comment]
 ----
 
-You now have your `Inventory` service, and your application has a starting point:
-`http://localhost:9081/LibertyProject/Inventory`
+You now have your `inventory` service, and your application has a starting point:
+`http://localhost:9080/inventory/properties`
 
 
 // =================================================================================================
@@ -279,21 +276,17 @@ include::{common-includes}/mvnbuild.adoc[]
 
 == Starting the application
 
-To see the new application in action, run the Maven `liberty:start-server` goals from each application
-directory.
+To see the new application in action, run the Maven `liberty:start-server` from the `start` directory:
 
 ```
-cd start/rest
+cd start
 mvn liberty:start-server
-
-cd ../microprofile/
-mvn liberty:start-server -DserverName=microServer
 ```
 
-Once both servers are running, you can find the services at the following URLs:
+Once the server is running, you can find both services at:
 
-* `http://localhost:9080/LibertyProject/System/properties`
-* `http://localhost:9081/LibertyProject/Inventory/systems`
+* `http://localhost:9080/system/properties`
+* `http://localhost:9080/inventory/hosts`
 
 
 // =================================================================================================
@@ -305,21 +298,21 @@ Once both servers are running, you can find the services at the following URLs:
 The application provides a simple inventory management REST service that you can access at the following URLs:
 
 ```
-http://localhost:9081/LibertyProject/Inventory/systems
-http://localhost:9081/LibertyProject/Inventory/systems/{hostname}
+http://localhost:9080/inventory/hosts
+http://localhost:9080/inventory/hosts/{hostname}
 
 # Example URL to retrieve or register a system
-http://localhost:9081/LibertyProject/Inventory/systems/localhost
+http://localhost:9080/inventory/hosts/localhost
 ```
 
 The first URL returns the current contents of the inventory. The second URL returns the system
-properties for the particular hostname. The service retrieves the properties from the inventory.
-If the inventory does not have an entry for the particular hostname, the service instead calls
-the `System` service that runs on the hostname to retrieve system properties. The system properties
-that are retrieved from the `System` service are then stored in the inventory and returned.
+properties for the specified hostname. The service retrieves these properties from the inventory.
+If the inventory does not have an entry for the specified hostname, the service instead calls
+the `system` service that runs on the hostname to retrieve system properties. The system properties
+that are retrieved from the `system` service are then stored in the inventory and returned.
 
-If you start the servers, you can access the two previous URLs from your browser to manually test the application.
-However, rely on automated tests because these tests trigger a failure if a code change introduces a bug.
+Once you start the server, you can access the two previous URLs from your browser to manually test the application.
+However, you should rely on automated tests because they will trigger a failure if a code change introduces a defect.
 JUnit and the JAX-RS Client API provide a simple environment to test the application.
 
 === Setting up the tests
@@ -328,7 +321,7 @@ Create a test class, `src/test/java/it/io/openliberty/guides/microprofile/Endpoi
 
 [source, java]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=**;!class-contents;!comment]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=**;!class-contents;!comment]
 ----
 
 Mark each test method with the `@Test` annotation.
@@ -338,7 +331,7 @@ of your individual tests.
 
 [source, java]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=class;!class-contents;setup;!comment]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=class;!class-contents;setup;!comment]
 ----
 
 The test code needs some information about the application in order to make requests. The server
@@ -348,10 +341,8 @@ instead of hardcoding it:
 
 [source, xml]
 ----
-<testServerHttpPort>9081</testServerHttpPort>
+<testServerHttpPort>9080</testServerHttpPort>
 <testServerHttpsPort>9443</testServerHttpsPort>
-<system.service.port>9080</system.service.port>
-<warContext>${app.name}</warContext>
 ----
 
 These Maven properties can then be passed to the Java test program as a series of system properties:
@@ -359,20 +350,18 @@ These Maven properties can then be passed to the Java test program as a series o
 [source, xml]
 ----
 <systemPropertyVariables>
-  <inv.test.port>${testServerHttpPort}</inv.test.port>
-  <war.name>${warContext}</war.name>
-  <sys.test.port>${system.service.port}</sys.test.port>
+  <liberty.test.port>${testServerHttpPort}</liberty.test.port>
   <running.bluemix>${running.bluemix}</running.bluemix>
   <cf.context.root>${cf.context.root}</cf.context.root>
 </systemPropertyVariables>
 ----
 
-You can then access these properties with the `System.getProperties` method. Use the properties
-to create representations of the URL associated with each running service:
+You can then access these properties via the `System.getProperties` method. Use these properties
+to create URL representations for each running service:
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=urlCreation]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=urlCreation]
 ----
 
 You can use the JAX-RS client to make the REST call and convert the payload to and from a JSON-P
@@ -380,82 +369,82 @@ representation. To do so, configure the client with the `JsrJsonpProvider` prope
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=clientInit]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=clientInit]
 ----
 
 === Writing the tests
 
 Normally, you cannot control the order of execution for test methods. However, you can place
-each test method within a single container method. This method is then the only method labeled `@Test`.
+each test method within a single container method. This method is then annotated with `@Test`.
 The following test suite contains four test methods, which run in the order they appear in the suite:
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testSuite]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testSuite]
 ----
 
 Create a test called `testEmptyInventory`. This test asserts that the inventory
-is empty when the `Inventory` service first starts. Use the `Response` object to receive a
+is empty when the `inventory` service first starts. Use the `Response` object to receive a
 response from the target URL. You can then retrieve the returned JSON from this response.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testEmptyInventory]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testEmptyInventory]
 ----
 
 Write a `getResponse` helper method to reuse the same line of code to retrieve a response from a
-particular URL. Reuse the line to keep your code neat and organized.
+particular URL. This helps keep your code neat and organized.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=getResponse]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=getResponse]
 ----
 
 Write another helper called `assertResponse`. This method ensures that the received response code is
-valid and returns status code 200.
+valid and returns a status code 200.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=assertResponse]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=assertResponse]
 ----
 
 Use the returned `Response` object to retrieve the JSON file:
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=jsonobj]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=jsonobj]
 ----
 
-Write an assertion to make sure that the `total` field is set to 0, which indicates that the inventory is empty,
-and close the response.
-
-[source, java, indent=0]
-----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=assertAndClose]
-----
-
-Create a test called `testHostRegistration`. This test asserts that registering
-the `localhost` system is successful.
+Write an assertion to make sure that the `total` field is set to 0, which indicates that the inventory is empty.
+Close the response before the method returns.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testHostRegistration]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=assertAndClose]
+----
+
+Create a test called `testHostRegistration`. This test asserts that registering the `localhost` system
+is successful.
+
+[source, java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testHostRegistration]
 ----
 
 Write a helper method called `visitLocalhost`. This method makes a simple `GET` request to the
-`System` service, registering the `localhost` system.
+`system` service at `localhost`, registering the `localhost` system.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=visitLocalhost]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=visitLocalhost]
 ----
 
-Create a test called `testSystemPropertiesMatch`. This test asserts that the
-system properties that are stored in the inventory match the properties that the `System` service returns.
+Create a test called `testSystemPropertiesMatch`. This test asserts that the currently stored system
+properties for `localhost` match the ones returned by the `system` service.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testSystemPropertiesMatch]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testSystemPropertiesMatch]
 ----
 
 Write a helper method called `assertProperty`. Use this method to assert that the properties
@@ -463,34 +452,32 @@ Write a helper method called `assertProperty`. Use this method to assert that th
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=assertProperty]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=assertProperty]
 ----
 
-Finally, create a test called `testUnknownHost`. This test asserts that the `Inventory` service
+Finally, create a test called `testUnknownHost`. This test asserts that the `inventory` service
 returns an error when you make a registration attempt on an unknown hostname.
 
 [source, java, indent=0]
 ----
-include::finish/microprofile/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testUnknownHost]
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testUnknownHost]
 ----
 
 === Running the tests
 
-To rebuild and run the tests, navigate to the `guide-{projectid}/start` directory and
-run the `mvn clean install` command from the command line.
+To rebuild and run the tests, navigate to the `start` directory and run the `mvn clean install` command
+from the command line.
 
 ```
 # If servers are still running from previous steps, stop them first
-cd microprofile/
-mvn liberty:stop-server -DserverName=microServer
-cd ../rest/
 mvn liberty:stop-server
 
+# Then execute
 mvn clean install
 ```
 
-It might take some time before the tests are executed.
-You see a similar output if the tests passed successfully:
+It might take some time before the tests are executed. If the tests pass, you will see the following
+output:
 
 ```
 -------------------------------------------------------
@@ -506,7 +493,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
 == Congratulations! You're done!
 
-Congratulations! You built and tested a MicroProfile application with JAX-RS, CDI, JSON-P
+Congratulations! You have just built and tested a MicroProfile application with JAX-RS, CDI, JSON-P
 and Open Liberty.
 
 
