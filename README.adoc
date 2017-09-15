@@ -66,7 +66,7 @@ The service responds with a JSON representation of the system properties that ar
 from the `System` service of the specified system. The `System` service is a simple REST service
 that returns the properties of a system and is provided to you.
 
-You will implement the above in the local case that is with everything deployed on one system.
+You will implement this application in the local case that is with everything deployed on one system.
 
 
 // =================================================================================================
