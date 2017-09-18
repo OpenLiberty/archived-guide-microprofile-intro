@@ -15,9 +15,7 @@
 :source-highlighter: prettify
 = Creating a MicroProfile application
 
-MicroProfile is an initiative to optimize Enterprise Java for a microservices architecture. It began
-with a core set of technologies that consisted of JAX-RS, CDI, and JSON-P.
-
+Learn how to use JAX-RS, CDI, and JSON-P to build a MicroProfile application.
 
 // =================================================================================================
 // What you'll learn
@@ -25,13 +23,14 @@ with a core set of technologies that consisted of JAX-RS, CDI, and JSON-P.
 
 == What you'll learn
 
-You will learn how to use JAX-RS, CDI, and JSON-P to build a MicroProfile application that
-performs simple inventory management. You will write REST web services with JAX-RS and JSON-P
-and also use CDI to inject dependencies and help manage the lifecycle of your application.
+MicroProfile is an initiative to optimize Enterprise Java for a microservices architecture.
+You will write REST web services with JAX-RS and JSON-P and also use CDI to inject dependencies
+and help manage the lifecycle of your application.
 
-This application provides an `inventory` service that allows you to retrieve the information for a particular
-host or a list of all previously registered hosts. If the requested host is not in the inventory, the `inventory`
-service attempts to retrieve that host's information by calling its `system` service.
+You will create an application that provides an `inventory` service, which allows you to retrieve
+the information for a particular host or a list of all previously registered hosts.
+If the requested host is not in the inventory, the `inventory` service attempts to retrieve
+that host's information by calling its `system` service.
 
 For example, to retrieve a list of all hosts in the inventory, enter the following URL:
 ```
@@ -104,7 +103,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResour
 ----
 
 The `listContents` method also responds to a `GET` request and returns the currently stored
-system properties (the contents of the inventory).
+system properties, the contents of the inventory.
 
 [source, java, indent=0]
 ----
@@ -165,7 +164,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 == Using CDI
 
 CDI is a Java EE specification that makes it simple for developers to use enterprise beans in web
-applications. It simplifies dependency and lifecycle management and enable developers to focus on
+applications. It simplifies dependency and lifecycle management and enables developers to focus on
 their code.
 
 === Injection
@@ -201,8 +200,8 @@ that you need for your objects:
 * The `@ApplicationScoped` annotation indicates that only one instance is created for each application.
 
 Annotate `InventoryResource` with `@ApplicationScoped` because it does not depend on any request-specific state.
-In general, all resources should be annotated with `@ApplicationScoped` unless they should be created once
-per every request.
+In general, annotate all resources with `@ApplicationScoped` unless they need to be created once
+every request.
 
 [source, java]
 ----
@@ -210,8 +209,8 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResour
 ----
 
 Annotate `InventoryManager` with `@ApplicationScoped` because it, too, does not depend on any request-specifc state.
-If a real database resource is used instead of a `Map`, it improves performance as database resources
-are not re-initialized on each request.
+For example, when you use a real database resource instead of a 'Map', you improve performance because
+the container will not re-initialize database resources on each request.
 
 [source, java]
 ----
@@ -284,7 +283,7 @@ cd start
 mvn liberty:start-server
 ```
 
-Once the server is running, you can find both services at:
+Once the server is running, you can find both services at the following locations:
 
 * `http://localhost:9080/inventory/hosts`
 * `http://localhost:9080/system/properties`
@@ -337,8 +336,8 @@ include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest
 
 The test code needs some information about the application in order to make requests. The server
 port and the application context root are key and are dictated by the server configuration.
-To make the information easier to change, specify it in a single place like the Maven pom.xml
-instead of hardcoding it:
+To make the information easier to change, specify it in a single place like the Maven pom.xml file
+instead of hardcoding it.
 
 [source, xml]
 ----
@@ -357,7 +356,7 @@ These Maven properties can then be passed to the Java test program as a series o
 </systemPropertyVariables>
 ----
 
-You can then access these properties via the `System.getProperties` method. Use these properties
+You can then access these properties with the `System.getProperties` method. Use these properties
 to create URL representations for each running service:
 
 [source, java, indent=0]
@@ -394,7 +393,7 @@ include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest
 ----
 
 Write a `getResponse` helper method to reuse the same line of code to retrieve a response from a
-particular URL. This helps keep your code neat and organized.
+particular URL. This method helps keep your code neat and organized.
 
 [source, java, indent=0]
 ----
