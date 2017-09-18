@@ -27,7 +27,7 @@ MicroProfile is an initiative to optimize Enterprise Java for a microservices ar
 You will write REST web services with JAX-RS and JSON-P and also use CDI to inject dependencies
 and help manage the lifecycle of your application.
 
-You will create an application that provides an `inventory` service that allows you to retrieve
+You will create an application that provides an `inventory` service, which allows you to retrieve
 the information for a particular host or a list of all previously registered hosts.
 If the requested host is not in the inventory, the `inventory` service attempts to retrieve
 that host's information by calling its `system` service.
