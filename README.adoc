@@ -9,7 +9,7 @@
 :page-layout: guide
 :page-duration: 30 minutes
 :page-description: Learn how to build a MicroProfile application
-:page-tags: ['REST', 'MicroProfile', 'Getting Started']
+:page-tags: ['REST', 'MicroProfile', 'Getting Started', 'CDI']
 :page-permalink: /guides/{projectid}
 :common-includes: ../guides-common/
 :source-highlighter: prettify
