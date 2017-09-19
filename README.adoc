@@ -39,7 +39,9 @@ http://localhost:9080/inventory/hosts
 
 The service responds with a JSON message that contains host information for all previously
 registered hosts, such as in the following example:
-```
+
+[source, json]
+----
 {
   "hosts": {
     "localhost": {
@@ -53,7 +55,7 @@ registered hosts, such as in the following example:
   },
   "total": 2
 }
-```
+----
 
 To retrieve information about a specific host, call this address:
 ```
