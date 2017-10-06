@@ -34,10 +34,7 @@ that host's information by calling its `system` service.
 
 For example, to retrieve a list of all hosts in the inventory, enter the following URL:
 
-[source, role="no_copy"]
-----
-http://localhost:9080/inventory/hosts
-----
+* http://localhost:9080/inventory/hosts
 
 The service responds with a JSON message that contains host information for all previously
 registered hosts, such as in the following example:
