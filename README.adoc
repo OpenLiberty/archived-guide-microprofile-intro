@@ -73,7 +73,7 @@ You will be running both `system` and the `inventory` services locally, on a sin
 // Getting Started
 // =================================================================================================
 
-include::../guides-common//gitclone.adoc[]
+include::{common-includes}/gitclone.adoc[]
 
 
 // =================================================================================================
