@@ -32,6 +32,7 @@ public class InventoryManager {
 
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
+    // tag::imp[]
     // tag::get[]
     public JsonObject get(String hostname) {
         // tag::method-contents[]
@@ -74,5 +75,5 @@ public class InventoryManager {
         // end::method-contents[]
     }
     // end::list[]
-
+    // end::imp[]
 }

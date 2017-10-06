@@ -33,6 +33,7 @@ If the requested host is not in the inventory, the `inventory` service attempts 
 that host's information by calling its `system` service.
 
 For example, to retrieve a list of all hosts in the inventory, enter the following URL:
+
 ```
 http://localhost:9080/inventory/hosts
 ```
@@ -40,7 +41,7 @@ http://localhost:9080/inventory/hosts
 The service responds with a JSON message that contains host information for all previously
 registered hosts, such as in the following example:
 
-[source, json]
+[source, json, role="no_copy"]
 ----
 {
   "hosts": {
@@ -58,6 +59,7 @@ registered hosts, such as in the following example:
 ----
 
 To retrieve information about a specific host, call this address:
+
 ```
 http://localhost:9080/inventory/hosts/<hostname>
 ```
@@ -126,7 +128,7 @@ managing them.
 
 [source, java]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=**;!cdi-scope;!get;!add;!list;!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=**;!cdi-scope;!comment;!imp]
 ----
 
 For simplicity, use a `ConcurrentMap` to store the data. Alternatively, you can use
@@ -280,10 +282,11 @@ include::{common-includes}/mvnbuild.adoc[]
 
 To see the new application in action, run the Maven `liberty:start-server` from the `start` directory:
 
-```
+[source, role="no_copy"]
+----
 cd start
 mvn liberty:start-server
-```
+----
 
 Once the server is running, you can find both services at the following locations:
 
@@ -299,13 +302,14 @@ Once the server is running, you can find both services at the following location
 
 The application provides a simple inventory management REST service that you can access at the following URLs:
 
-```
+[source, role="no_copy"]
+----
 http://localhost:9080/inventory/hosts
 http://localhost:9080/inventory/hosts/{hostname}
 
 # Example URL to retrieve or register a system
 http://localhost:9080/inventory/hosts/localhost
-```
+----
 
 The first URL returns the current contents of the inventory. The second URL returns the system
 properties for the specified hostname. The service retrieves these properties from the inventory.
@@ -341,7 +345,7 @@ port and the application context root are key and are dictated by the server con
 To make the information easier to change, specify it in a single place like the Maven pom.xml file
 instead of hardcoding it.
 
-[source, xml]
+[source, xml, role="no_copy"]
 ----
 <testServerHttpPort>9080</testServerHttpPort>
 <testServerHttpsPort>9443</testServerHttpsPort>
@@ -349,7 +353,7 @@ instead of hardcoding it.
 
 These Maven properties can then be passed to the Java test program as a series of system properties:
 
-[source, xml]
+[source, xml, role="no_copy"]
 ----
 <systemPropertyVariables>
   <liberty.test.port>${testServerHttpPort}</liberty.test.port>
@@ -470,18 +474,20 @@ include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest
 To rebuild and run the tests, navigate to the `start` directory and run the `mvn clean install` command
 from the command line.
 
-```
+[source, role="no_copy"]
+----
 # If the server is still running from previous steps, stop it first
 mvn liberty:stop-server
 
 # Then execute
 mvn clean install
-```
+----
 
 It might take some time before the tests are executed. If the tests pass, you will see the following
 output:
 
-```
+[source, role="no_copy"]
+----
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -491,7 +497,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.668 sec - in i
 Results :
 
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-```
+----
 
 == Congratulations! You're done!
 

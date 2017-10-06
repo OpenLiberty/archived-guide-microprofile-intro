@@ -100,7 +100,9 @@ public class EndpointTest {
 
         boolean expectedLocalhost = true;
         boolean actualLocalhost = obj.getJsonObject("hosts").containsKey("localhost");
-        assertEquals("A host was registered, but it was not localhost", expectedLocalhost, actualLocalhost);
+        assertEquals("A host was registered, but it was not localhost", 
+                     expectedLocalhost, 
+                     actualLocalhost);
 
         invResponse.close();
     }
