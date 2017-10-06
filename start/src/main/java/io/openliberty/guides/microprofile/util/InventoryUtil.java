@@ -31,7 +31,7 @@ public class InventoryUtil {
     public static JsonObject getProperties(String hostname) {
         Client client = ClientBuilder.newClient();
         URI propURI = InventoryUtil.buildUri(hostname);
-        return client.target(propURI).request(MediaType.APPLICATION_JSON).get(JsonObject.class);
+        return client.target(propURI).request().get(JsonObject.class);
     }
 
     public static boolean responseOk(String hostname) {
