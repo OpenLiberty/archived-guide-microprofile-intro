@@ -499,10 +499,9 @@ Results :
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-== Congratulations! You're done!
+== Good work! You're done!
 
-Congratulations! You have just built and tested a MicroProfile application with JAX-RS, CDI, JSON-P
-and Open Liberty.
+You have just built a MicroProfile application on top of Open Liberty using JAX-RS, CDI, and JSON-P.
 
 
 include::{common-includes}/finish.adoc[]
