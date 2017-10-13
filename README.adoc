@@ -499,7 +499,7 @@ Results :
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-== Great work! You're done!git pgit pu
+== Great work! You're done!
 
 You have just built a MicroProfile application on top of Open Liberty using JAX-RS, CDI, and JSON-P.
 
