@@ -84,10 +84,10 @@ include::{common-includes}/gitclone.adoc[]
 
 == Creating the Inventory Service with JAX-RS
 
-First, create the JAX-RS service that serves as the `systems` endpoint:
-
+First, create the JAX-RS service that serves as the `systems` endpoint. Create an empty file with the following file name:
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 
+Next, paste the following code into the empty file:
 [source, java]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=**;!cdi-scope;!injection;!method-contents;!comment]
@@ -114,6 +114,7 @@ system properties, the contents of the inventory.
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=listContents;!method-contents]
 ----
 
+Save the file.
 
 // =================================================================================================
 // Creating the Inventory Manager
