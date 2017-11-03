@@ -60,7 +60,7 @@ public class EndpointTest {
     @Test
     public void testSuite() {
         this.testEmptyInventory();
-        //this.testHostRegistration();
+        this.testHostRegistration();
         this.testSystemPropertiesMatch();
         this.testUnknownHost();
     }
@@ -110,8 +110,6 @@ public class EndpointTest {
 
     // tag::testSystemPropertiesMatch[]
     public void testSystemPropertiesMatch() {
-    		
-
         Response invResponse = this.getResponse(baseUrl + INVENTORY_HOSTS);
         Response sysResponse = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
         this.assertResponse(baseUrl, invResponse);
