@@ -59,6 +59,7 @@ public class EndpointTest {
     // tag::testSuite[]
     @Test
     public void testSuite() {
+        // tests are dependent on each other, execute in this order
         this.testEmptyInventory();
         this.testHostRegistration();
         this.testSystemPropertiesMatch();
