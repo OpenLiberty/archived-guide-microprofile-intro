@@ -115,6 +115,11 @@ public class EndpointTest {
         Response sysResponse = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
         this.assertResponse(baseUrl, invResponse);
         this.assertResponse(baseUrl, sysResponse);
+        
+        if(invResponse.readEntity(JsonObject.class).getInt("total") == 0) {
+        		this.testHostRegistration();
+        		invResponse = this.getResponse(baseUrl + INVENTORY_HOSTS);
+        }
 
         JsonObject jsonFromInventory = invResponse.readEntity(JsonObject.class)
                                                   .getJsonObject("hosts")
