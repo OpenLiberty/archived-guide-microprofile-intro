@@ -8,7 +8,6 @@
 :projectid: microprofile-intro
 :page-layout: guide
 :page-duration: 30 minutes
-:page-date: 2017-09-19
 :page-description: Learn how to build a MicroProfile application
 :page-tags: ['REST', 'MicroProfile', 'Getting Started', 'CDI']
 :page-permalink: /guides/{projectid}
