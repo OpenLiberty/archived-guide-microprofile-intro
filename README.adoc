@@ -361,7 +361,7 @@ include::finish/pom.xml[tags=system-props]
 You can then access these properties with the `System.getProperties` method. Use these properties
 to create URL representations for each running service:
 
-[source, java, indent=0]
+[source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=urlCreation]
 ----
@@ -369,7 +369,7 @@ include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest
 You can use the JAX-RS client to make the REST call and convert the payload to and from a JSON-P
 representation. To do so, configure the client with the `JsrJsonpProvider` property:
 
-[source, java, indent=0]
+[source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=clientInit]
 ----
