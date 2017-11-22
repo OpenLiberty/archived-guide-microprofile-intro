@@ -346,27 +346,22 @@ port and the application context root are key and are dictated by the server con
 To make the information easier to change, specify it in a single place like the Maven pom.xml file
 instead of hardcoding it.
 
-[source, xml, role="no_copy"]
+[source, xml, indent=0, role="no_copy"]
 ----
-<testServerHttpPort>9080</testServerHttpPort>
-<testServerHttpsPort>9443</testServerHttpsPort>
+include::finish/pom.xml[tags=ports]
 ----
 
 These Maven properties can then be passed to the Java test program as a series of system properties:
 
-[source, xml, role="no_copy"]
+[source, xml, indent=0, role="no_copy"]
 ----
-<systemPropertyVariables>
-  <liberty.test.port>${testServerHttpPort}</liberty.test.port>
-  <running.bluemix>${running.bluemix}</running.bluemix>
-  <cf.context.root>${cf.context.root}</cf.context.root>
-</systemPropertyVariables>
+include::finish/pom.xml[tags=system-props]
 ----
 
 You can then access these properties with the `System.getProperties` method. Use these properties
 to create URL representations for each running service:
 
-[source, java, indent=0]
+[source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=urlCreation]
 ----
@@ -374,7 +369,7 @@ include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest
 You can use the JAX-RS client to make the REST call and convert the payload to and from a JSON-P
 representation. To do so, configure the client with the `JsrJsonpProvider` property:
 
-[source, java, indent=0]
+[source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=clientInit]
 ----

@@ -16,8 +16,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <app.name>LibertyProject</app.name>
+        <!-- tag::ports[] -->
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
+        <!-- end::ports[] -->
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
         <packaging.type>usr</packaging.type>
     </properties>
@@ -196,11 +198,11 @@
                             <includes>
                                 <include>**/it/**</include>
                             </includes>
+                            <!-- tag::system-props[] -->
                             <systemPropertyVariables>
                                 <liberty.test.port>${testServerHttpPort}</liberty.test.port>
-                                <running.bluemix>${running.bluemix}</running.bluemix>
-                                <cf.context.root>${cf.context.root}</cf.context.root>
                             </systemPropertyVariables>
+                            <!-- end::system-props[] -->
                         </configuration>
                     </execution>
                     <execution>

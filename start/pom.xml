@@ -198,8 +198,6 @@
                             </includes>
                             <systemPropertyVariables>
                                 <liberty.test.port>${testServerHttpPort}</liberty.test.port>
-                                <running.bluemix>${running.bluemix}</running.bluemix>
-                                <cf.context.root>${cf.context.root}</cf.context.root>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
