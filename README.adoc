@@ -33,7 +33,7 @@ the information for a particular host or a list of all previously registered hos
 If the requested host is not in the inventory, the `inventory` service attempts to retrieve
 that host's information by calling its `system` service.
 
-For example, to retrieve a list of all hosts in the inventory, enter the following URL:
+For example, you will be able to access the following URL to retrieve a list of all hosts in the inventory:
 
 ```
 http://localhost:9080/inventory/hosts
@@ -59,7 +59,7 @@ registered hosts, such as in the following example:
 }
 ----
 
-To retrieve information about a specific host, call this address:
+You will be able to retrieve information about a specific host by calling this address:
 
 ```
 http://localhost:9080/inventory/hosts/<hostname>
