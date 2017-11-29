@@ -59,7 +59,7 @@ registered hosts, such as in the following example:
 }
 ----
 
-You will be able to retrieve information about a specific host by calling the following address:
+You will be able to retrieve information about a specific host by calling this address:
 
 ```
 http://localhost:9080/inventory/hosts/<hostname>
