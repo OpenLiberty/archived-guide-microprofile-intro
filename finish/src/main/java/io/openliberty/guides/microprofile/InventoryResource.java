@@ -46,6 +46,7 @@ public class InventoryResource {
     // end::getPropertiesForHost[]
 
     // tag::listContents[]
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject listContents() {
