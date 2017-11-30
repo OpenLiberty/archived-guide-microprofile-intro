@@ -27,9 +27,11 @@ Learn how to use JAX-RS, CDI, and JSON-P to build a MicroProfile application.
 In this guide, you will learn how to write RESTful web services using JAX-RS and JSON-P while utilizing
 CDI to inject dependencies and help manage your application lifecycle.
 
-To become familiar with RESTful web services, you will write a simple application that acts as an `inventory`
-service, storing system properties of various hosts. This service will then allow the user to retrieve
-the system properties for a particular host and view a list of all currently stored hosts. If the user
+To become familiar with RESTful web services, you will write a simple MicroProfile application.
+MicroProfile is an initiative to optimize Enterprise Java for a microservices architecture. This
+application will acts as an `inventory` service, storing system properties of various hosts. This service
+will then allow the user to retrieve the system properties for a particular host and view a list of
+all currently stored hosts. If the user
 attempts to retrieve the system properties of a host who is not yet stored in the inventory, then
 the `inventory` service will access the `system` service running on that host instead. The `system`
 service will return the system properties of its host, which will then be forwarded to the user and
