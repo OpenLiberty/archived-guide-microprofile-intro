@@ -24,7 +24,7 @@ Learn how to use JAX-RS, CDI, and JSON-P to build a MicroProfile application.
 
 == What you'll learn
 
-In this guide, you will learn how to write RESTful web services using JAX-RS and JSON-P while utilizing
+You will learn how to write RESTful web services using JAX-RS and JSON-P while utilizing
 CDI to inject dependencies and help manage your application lifecycle.
 
 To become familiar with RESTful web services, you will write a simple MicroProfile application.
