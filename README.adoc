@@ -85,9 +85,9 @@ include::{common-includes}/gitclone.adoc[]
 
 == Creating the Inventory Service with JAX-RS
 
-First, create the JAX-RS service that serves as the `systems` endpoint:
+First, create the JAX-RS service that serves as the `hosts` endpoint:
 
-`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
+Create `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`:
 
 [source, java]
 ----
@@ -125,7 +125,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResour
 The Inventory Manager is responsible for storing the data about the systems in the inventory and
 managing them.
 
-`src/main/java/io/openliberty/guides/microprofile/InventoryManager.java`
+Create `src/main/java/io/openliberty/guides/microprofile/InventoryManager.java`:
 
 [source, java]
 ----
@@ -206,7 +206,8 @@ that you need for your objects:
 
 Annotate `InventoryResource` with `@ApplicationScoped` because it does not depend on any request-specific state.
 In general, annotate all resources with `@ApplicationScoped` unless they need to be created once
-every request.
+every request. For example, when you use a real database resource instead of a 'Map', you improve performance because
+the container will not re-initialize database resources on each request.
 
 [source, java]
 ----
@@ -214,8 +215,6 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResour
 ----
 
 Annotate `InventoryManager` with `@ApplicationScoped` because it, too, does not depend on any request-specifc state.
-For example, when you use a real database resource instead of a 'Map', you improve performance because
-the container will not re-initialize database resources on each request.
 
 [source, java]
 ----
@@ -265,7 +264,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryApplic
 ----
 
 You now have your `inventory` service, and your application has a starting point:
-`http://localhost:9080/inventory/properties`
+`http://localhost:9080/inventory/hosts`
 
 
 // =================================================================================================
@@ -282,12 +281,9 @@ include::{common-includes}/mvnbuild.adoc[]
 == Starting the application
 
 To see the new application in action, run the Maven `liberty:start-server` from the `start` directory:
-
-[source, role="no_copy"]
-----
-cd start
+```
 mvn liberty:start-server
-----
+```
 
 Once the server is running, you can find both services at the following locations:
 
