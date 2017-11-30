@@ -319,7 +319,7 @@ Your MicroProfile application provides a simple inventory management service tha
 following URLs:
 
 - http://localhost:9080/inventory/hosts
-- http://localhost:9080/inventory/hosts/{hostname}
+- http://localhost:9080/inventory/hosts/<hostname>
 
 The first URL returns the current contents of the inventory. The second URL returns the system properties for
 the specified hostname. If the inventory does not have an entry for the given hostname, then the `inventory`
