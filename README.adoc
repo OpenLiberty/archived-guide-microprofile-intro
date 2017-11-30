@@ -33,7 +33,7 @@ the system properties for a particular host and view a list of all currently sto
 attempts to retrieve the system properties of a host who is not yet stored in the inventory, then
 the `inventory` service will access the `system` service running on that host instead. The `system`
 service will return the system properties of its host, which will then be forwarded to the user and
-stored in the inventory.
+stored in the inventory for the future.
 
 The `system` service has been written for you in advance under the `start/src/main/java/io/openliberty/guides/rest`
 directory. To learn more about this service as well as how you can write it yourself, read
@@ -64,12 +64,12 @@ Which will respond with a JSON containing basic information about all previously
 }
 ----
 
-Individual host's full system properties will also be accessible by passing the hostname instead:
+Individual host's full system properties will also be accessible by appending the hostname instead:
 ```
 http://localhost:9080/inventory/hosts/<hostname>
 ```
 
-NOTE: The `system` and the `inventory` services will both be run locally on a single server.
+You will run both the `system` and the `inventory` services locally on a single server.
 
 
 // =================================================================================================
@@ -485,10 +485,7 @@ goals from the command line:
 
 [NOTE]
 ====
-If the server is still running from the previous step, you must stop it first:
-```
-mvn liberty:stop-server
-```
+If the server is still running from the previous step, you must stop it first: `mvn liberty:stop-server`
 ====
 
 ```
