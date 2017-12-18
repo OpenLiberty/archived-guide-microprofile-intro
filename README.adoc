@@ -78,7 +78,56 @@ You will run both the `system` and the `inventory` services locally on a single 
 // Getting Started
 // =================================================================================================
 
-include::{common-includes}/gitclone.adoc[]
+== Getting Started
+
+The fastest way to work through this guide is to clone the git repository and use the `start` directory
+as the starting point.
+
+[subs="attributes"]
+----
+git clone https://github.com/openliberty/guide-{projectid}.git
+cd guide-{projectid}
+----
+
+Feel free to try the finished version of what you will be building in this guide to get a feel of
+how everything will work. To do this, navigate to the `finish` directory and execute the following:
+
+```
+mvn clean install liberty:start-server
+```
+
+Your application is now running in Open Liberty at http://localhost:9080/inventory/hosts. Since you
+haven't stored anything in the inventory just yet, it will appear empty:
+
+[source, JSON, indent=0, role="no_copy"]
+----
+{
+  "hosts": {},
+  "total": 0
+}
+----
+
+Try retrieving your own system properties. After you retrieve them, they will be automatically stored
+in the inventory. To do this, point your browser to http://localhost:9080/inventory/hosts/localhost.
+You will see a large JSON with your JVM's system properties. Next, return back to http://localhost:9080/inventory/hosts
+and you will see them stored under `localhost`:
+
+[source, JSON, indent=0, role="no_copy"]
+----
+{
+  "hosts": {
+    "localhost": {
+      "os.name": "Mac OS X",
+      "user.name": "foo"
+    }
+  },
+  "total": 1
+}
+----
+
+Feel free to try this with your machine's hostname as well. It will add a new entry to the inventory
+under `<your hostname>`. You can also run the `system` service on any other local machine and repeat
+the same process.
 
 
 // =================================================================================================
@@ -472,20 +521,19 @@ include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest
 
 === Running the tests
 
-To rebuild and run the tests, navigate to the `start` directory and run the Maven `clean` and `install`
-goals from the command line:
-
-[NOTE]
-====
-If the server is still running from the previous step, you must stop it first: `mvn liberty:stop-server`
-====
+If the server is still running from the previous steps, stop it first using the Maven `liberty:stop-server` goal:
 
 ```
-mvn clean install
+mvn liberty:stort-server
 ```
 
-It might take some time before the tests are executed. If the tests pass, you will see the following
-output:
+Then, verify that the tests pass using the `verify` goal:
+
+```
+mvn very
+```
+
+It may take some time before build is complete. If the tests pass, you will see a similar output:
 
 [source, role="no_copy"]
 ----
