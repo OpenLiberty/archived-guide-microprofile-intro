@@ -15,52 +15,41 @@ package io.openliberty.guides.microprofile;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+// CDI
 import javax.enterprise.context.ApplicationScoped;
+
+// JSON-P
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+// Utils
 import io.openliberty.guides.microprofile.util.InventoryUtil;
-import io.openliberty.guides.microprofile.util.ReadyJson;
+import io.openliberty.guides.microprofile.util.JsonMessages;
 
-// tag::header[]
-// tag::cdi-scope[]
 @ApplicationScoped
-// end::cdi-scope[]
 public class InventoryManager {
-// end::header[]
 
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
-    // tag::imp[]
-    // tag::get[]
     public JsonObject get(String hostname) {
-        // tag::method-contents[]
         JsonObject properties = inv.get(hostname);
         if (properties == null) {
             if (InventoryUtil.responseOk(hostname)) {
                 properties = InventoryUtil.getProperties(hostname);
                 this.add(hostname, properties);
             } else {
-                return ReadyJson.SERVICE_UNREACHABLE.getJson();
+                return JsonMessages.SERVICE_UNREACHABLE.getJson();
             }
         }
         return properties;
-        // end::method-contents[]
     }
-    // end::get[]
 
-    // tag::add[]
     public void add(String hostname, JsonObject systemProps) {
-        // tag::method-contents[]
         inv.putIfAbsent(hostname, systemProps);
-        // end::method-contents[]
     }
-    // end::add[]
 
-    // tag::list[]
     public JsonObject list() {
-        // tag::method-contents[]
         JsonObjectBuilder systems = Json.createObjectBuilder();
         inv.forEach((host, props) -> {
             JsonObject systemProps = Json.createObjectBuilder()
@@ -72,8 +61,5 @@ public class InventoryManager {
         systems.add("hosts", systems);
         systems.add("total", inv.size());
         return systems.build();
-        // end::method-contents[]
     }
-    // end::list[]
-    // end::imp[]
 }

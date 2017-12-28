@@ -12,48 +12,37 @@
  // end::comment[]
 package io.openliberty.guides.microprofile;
 
+// CDI
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+
+// JSON-P
 import javax.json.JsonObject;
+
+// JAX-RS
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-// tag::header[]
-// tag::cdi-scope[]
 @ApplicationScoped
-// end::cdi-scope[]
 @Path("hosts")
 public class InventoryResource {
-// end::header[]
 
-    // tag::injection[]
     @Inject
     InventoryManager manager;
-    // end::injection[]
-
-    // tag::getPropertiesForHost[]
+    
     @GET
     @Path("{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
-        // tag::method-contents[]
         return manager.get(hostname);
-        // end::method-contents[]
     }
-    // end::getPropertiesForHost[]
 
-    // tag::listContents[]
-    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject listContents() {
-        // tag::method-contents[]
         return manager.list();
-        // end::method-contents[]
     }
-    // end::listContents[]
-
 }

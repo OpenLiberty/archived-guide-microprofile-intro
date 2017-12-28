@@ -12,6 +12,7 @@
  // end::comment[]
 package io.openliberty.guides.microprofile;
 
+// JAX-RS
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 

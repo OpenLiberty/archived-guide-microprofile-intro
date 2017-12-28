@@ -12,10 +12,11 @@
  // end::comment[]
 package io.openliberty.guides.microprofile.util;
 
+// JSON-P
 import javax.json.Json;
 import javax.json.JsonObject;
 
-public enum ReadyJson {
+public enum JsonMessages {
 
     SERVICE_UNREACHABLE();
 
