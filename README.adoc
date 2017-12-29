@@ -28,8 +28,8 @@ image::diagram.png[Diagram, 450, 315, align="center"]
 
 == What is MicroProfile?
 
-MicroProfile is a very small, but powerful, subset of Java EE specifications made to optimize Java for
-the Microservices architecture.
+MicroProfile is an initiative to optimize Java for the Microservices architecture. It is a very small,
+but powerful, subset of Java EE specifications.
 
 As of release 1.0, MicroProfile consists of JAX-RS, CDI, and JSON-P.
 
