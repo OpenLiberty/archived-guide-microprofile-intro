@@ -24,7 +24,7 @@ The following diagram shows the overall layout of the inventory application:
 
 [#diagram]
 .The `inventory` service will talk to `system` services running on various hosts to retrieve JVM system properties for those hosts. These properties are then stored in the `inventory` service which will be running on your local machine (aka localhost).
-image::diagram.png[Diagram, 450, 650, align="center"]
+image::diagram.png[Diagram, 450, 450, align="center"]
 
 == What is MicroProfile?
 
