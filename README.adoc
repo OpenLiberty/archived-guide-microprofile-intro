@@ -24,7 +24,7 @@ The following diagram shows the overall layout of the inventory application:
 
 [#diagram]
 .The `inventory` service will talk to `system` services running on various hosts to retrieve JVM system properties for those hosts. These properties are then stored in the `inventory` service which will be running on your local machine (aka localhost).
-image::diagram.png[Diagram, 450, 315, align="center"]
+image::diagram-new.png[Diagram, 450, 315, align="center"]
 
 == What is MicroProfile?
 
@@ -50,6 +50,8 @@ git clone https://github.com/openliberty/guide-microprofile-intro.git
 cd guide-microprofile-intro/start
 ```
 
+=== Try what you'll build
+
 The `finish` directory in the root of this guide contains the finished inventory application. Feel
 free to give it a try before you proceed with building your own.
 
@@ -57,7 +59,7 @@ To try out the application, first navigate to the `finish` directory and then ex
 Maven goals to build the application and run it inside Open Liberty:
 
 ```
-mvn clean install liberty:start-server
+mvn install liberty:start-server
 ```
 
 Point your browser to http://localhost:9080/inventory. This is the staring point of the `inventory`
@@ -114,7 +116,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 Your inventory is ultimately just a `ConcurrentMap` object where the key is a hostname and the value
 is a JSON Java object full of various JVM system properties:
 
-[source, Java]
+[source, Java, role="no_copy"]
 ----
 private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 ----
@@ -162,7 +164,7 @@ The `@Inject` annotation indicates a dependency injection. In this case, you are
 This makes all functionalities of your bean available in this JAX-RS service without the need of
 actually instantiating the bean yourself:
 
-[source, Java]
+[source, Java, role="no_copy"]
 ----
 @Inject
 InventoryManager manager;
@@ -172,7 +174,7 @@ The `@GET` annotation on a method is a part of JAX-RS and it indicates the type 
 the method handles. GET requests always respond with some type of resource. In this case, both methods
 respond with a JSON object and this is indicated by the `@Produces` annotation:
 
-[source, Java]
+[source, Java, role="no_copy"]
 ----
 @GET
 @Produces(MediaType.APPLICATION_JSON)
@@ -182,7 +184,7 @@ An optional `@Path` annotation can also be placed on a method to indicate the en
 HTTP request is handled. Additional curly braces can be used in the `@Path` annotation to treat the
 endpoint as a parameter, which can then be added to the method signature using the `@PathParam` annotation:
 
-[source, Java]
+[source, Java, role="no_copy"]
 ----
 @Path("{hostname}")
 public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) { ... }
@@ -223,48 +225,79 @@ Your inventory application is now finished.
 // Building the application
 // =================================================================================================
 
-== Building the application
+// == Building the application
+//
+// To build the application, run the Maven `install` goal form the command line:
+//
+// ```
+// mvn install
+// ```
+//
+// This goal builds the application and creates a `.war` file in the target directory. It also configures
+// and installs Liberty into the `target/liberty/wlp` directory.
+//
+// If the server is running, running the installation can cause issues because the installation attempts
+// to start a server. You can instead run the following command:
+//
+//
+// // =================================================================================================
+// // Starting the application
+// // =================================================================================================
+//
+// == Starting the application
+//
+// To start your inventory application run the Maven `liberty:start-server` goal from the command line:
+//
+// ```
+// mvn liberty:start-server
+// ```
+//
+// This will start an Open Liberty server on your machine. Your POM is already configured to start the
+// `inventory` and `system` services in this server instance. These can then be accessed at:
+//
+// - http://localhost:9080/inventory
+// - http://localhost:9080/system
+//
+// After making changes to the code, use the Maven `package` goal to rebuild the application and have the
+// running Open Liberty server pick up these changes automatically:
+//
+// ```
+// mvn package
+// ```
+//
+// To stop the Open Liberty server, run the Maven `liberty:stop-server` goal from the command line:
+//
+// ```
+// mvn liberty:stop-server
+// ```
 
-To build the application, run the following command:
+== Building and running the application
+
+To build the application and run it inside Open Liberty, execute the following Maven goals from the
+command line:
 
 ```
-mvn install
+mvn install liberty:start-server
 ```
 
-This command builds the application and creates a `.war` file in the target directory. The command also
-configures and installs Liberty into the `target/liberty/wlp` directory. After the Maven build completes,
-you can use the server script in that Liberty installation. You can also start and stop the server by
-using the Maven goals of `liberty:start-server` and `liberty:stop-server`.
+Your POM is already configured to start the `inventory` and `system` services in this server instance.
+These can then be accessed at:
 
-If the server is running, running the installation can cause issues because the installation attempts
-to start a server. You can instead run the following command:
+- http://localhost:9080/inventory
+- http://localhost:9080/system
+
+After making changes to the code, use the Maven `package` goal to rebuild the application and have the
+running Open Liberty server pick up these changes automatically:
 
 ```
 mvn package
 ```
 
-This command rebuilds the application, and the running Liberty server automatically picks up the changes.
-
-If you use a tool that does incremental updates, like Eclipse, then you can bypass the application build.
-
-
-// =================================================================================================
-// Starting the application
-// =================================================================================================
-
-== Starting the application
-
-To start your inventory application run the Maven `liberty:start-server` goal from the command line:
+To stop the Open Liberty server, run the Maven `liberty:stop-server` goal from the command line:
 
 ```
-mvn liberty:start-server
+mvn liberty:stop-server
 ```
-
-This will start an Open Liberty server on your machine. Your POM is already configured to start the
-`inventory` and `system` services in this server instance. These can then be accessed at:
-
-- http://localhost:9080/inventory
-- http://localhost:9080/system
 
 
 // =================================================================================================
