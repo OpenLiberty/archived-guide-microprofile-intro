@@ -214,7 +214,7 @@ the container will not re-initialize database resources on each request.
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=header]
 ----
 
-Annotate `InventoryManager` with `@ApplicationScoped` because it, too, does not depend on any request-specifc state.
+Annotate `InventoryManager` with `@ApplicationScoped` because it, too, does not depend on any request-specific state.
 
 [source, java]
 ----
