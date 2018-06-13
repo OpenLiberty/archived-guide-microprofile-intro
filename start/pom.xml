@@ -14,8 +14,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <app.name>LibertyProject</app.name>
+        <!-- tag::ports[] -->
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
+        <!-- end::ports[] -->
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
         <packaging.type>usr</packaging.type>
     </properties>
@@ -81,6 +83,26 @@
             <version>1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -88,7 +110,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>pom.xml</packagingExcludes>
@@ -194,9 +216,11 @@
                             <includes>
                                 <include>**/it/**/*.java</include>
                             </includes>
+                            <!-- tag::system-props[] -->
                             <systemPropertyVariables>
                                 <liberty.test.port>${testServerHttpPort}</liberty.test.port>
                             </systemPropertyVariables>
+                            <!-- end::system-props[] -->
                         </configuration>
                     </execution>
                     <execution>
