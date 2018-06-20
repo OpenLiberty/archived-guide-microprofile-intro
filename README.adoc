@@ -17,6 +17,9 @@
 :source-highlighter: prettify
 = Creating a MicroProfile application
 
+[.hidden]
+NOTE: This guide is deprecated. View the introductory guide to MicroProfile in https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices].
+
 Learn how to use JAX-RS, CDI, and JSON-P to build a MicroProfile application.
 
 // =================================================================================================
