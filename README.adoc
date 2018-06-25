@@ -5,6 +5,7 @@
 //
 // Contributors:
 //   IBM Corporation
+:page-archived: true
 :projectid: microprofile-intro
 :page-layout: guide
 :page-duration: 30 minutes
