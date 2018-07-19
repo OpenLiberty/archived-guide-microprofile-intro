@@ -18,8 +18,7 @@
 = Creating a MicroProfile application
 
 [.hidden]
-NOTE: This guide is replaced by https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service
-] and https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] and has been archived. 
+NOTE: The Creating a MicroProfile application guide has been archived and is replaced by the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] guide and the https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] guide.
 
 Learn how to use JAX-RS, CDI, and JSON-P to build a MicroProfile application.
 
